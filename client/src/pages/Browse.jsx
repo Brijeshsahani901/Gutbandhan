@@ -1,88 +1,93 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useDebounce } from 'use-debounce';
 import ProfileCard from "../components/profile/ProfileCard";
 import ProfileFilter from "../components/profile/ProfileFilter";
 import { toast } from "react-toastify";
 import { useQuery,useMutation } from "@tanstack/react-query";
-import { getAllProfile } from "../api/profile";
+import { getAllProfile,searchProfiles } from "../api/profile";
+import React from "react";
 
-const Browse = () => {
-  const { isAuthenticated ,user} = useAuth();
+
+export default function Browse() {
   const [filters, setFilters] = useState({});
-   const [page, setPage] = useState(1);
+  const [debouncedFilters] = useDebounce(filters, 500);
 
-  // const {
-  //   data: profiles,
-  //   isLoading: loading,
-  //   isError,
-  // } = useQuery({
-  //   queryKey: ["profile"],
-  //   queryFn: () => getAllProfile(),
-  // });
-
-   const {
-    data: profiles,
-    isLoading: loading,
+  const {
+    data,
+    isLoading,
     isError,
-    refetch,
-  } = useQuery({
-    queryKey: ["profile", filters],
-    queryFn: () => getAllProfile(filters),
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetching,
+  } = useInfiniteQuery({
+    queryKey: ['profiles', debouncedFilters],
+    queryFn: ({ pageParam = 1 }) =>
+      searchProfiles({ ...debouncedFilters, page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      const next = lastPage.page < lastPage.pages ? lastPage.page + 1 : undefined;
+      return next;
+    },
+    keepPreviousData: true,
   });
 
   const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-    toast.success("Filters applied successfully");
-  };
-
-
-  const handleSaveProfile = (profileId) => {
-    if (!isAuthenticated) {
-      toast.info("Please sign in to save profiles");
-      return;
-    }
-
-    toast.success("Profile saved successfully");
+    setFilters({ ...newFilters, page: 1 });
+    toast.success('Filters applied');
   };
 
   return (
-    <div className="pt-24 pb-16">
-      <div className="container-custom">
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <h1 className="mb-4">Browse Profiles</h1>
-          <p className="text-lg text-neutral-600">
-            Discover compatible matches and start your journey to finding a
-            meaningful connection.
-          </p>
+    <div className="pt-24 pb-16 container mx-auto px-4">
+      <h1 className="text-center text-3xl font-bold mb-2">Browse Profiles</h1>
+      <p className="text-center text-gray-600 mb-8">
+        Discover compatible matches and start your journey.
+      </p>
+
+      <ProfileFilter onFilterChange={handleFilterChange} />
+
+      {isLoading ? (
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mx-auto" />
         </div>
-
-        <ProfileFilter onFilterChange={handleFilterChange} />
-
-        {loading ? (
-          <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
-          </div>
-        ) : (
+      ) : isError ? (
+        <div className="text-center text-red-600">Failed to load profiles.</div>
+      ) : (
+        <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {profiles?.profiles?.map((profile) => (
-              <ProfileCard
-                key={profile.id}
-                profile={profile}
-                // onInterest={() =>  handleInterest(profile.profile_id)}
-                onSave={handleSaveProfile}
-              />
+            {data.pages.map((page, idx) => (
+              <React.Fragment key={idx}>
+                {page.profiles.map((profile) => (
+                  <ProfileCard
+                    key={profile._id || profile.id}
+                    profile={profile}
+                    onSave={() => toast.success('Saved')}
+                  />
+                ))}
+              </React.Fragment>
             ))}
           </div>
-        )}
 
-        {!loading && profiles?.length > 0 && (
-          <div className="text-center mt-12">
-            <button className="btn-outline">Load More Profiles</button>
+          <div className="text-center mt-8">
+            {hasNextPage ? (
+              <button
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="px-6 py-3 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
+                {isFetchingNextPage ? 'Loading...' : 'Load More'}
+              </button>
+            ) : (
+              <p className="text-gray-500">No more profiles to load</p>
+            )}
           </div>
-        )}
-      </div>
+
+          {isFetching && !isFetchingNextPage && (
+            <p className="text-center mt-2 text-gray-500">Fetching...</p>
+          )}
+        </>
+      )}
     </div>
   );
-};
-
-export default Browse;
+}

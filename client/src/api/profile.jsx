@@ -82,3 +82,13 @@ export const getDashboardStats = async () => {
   const response = await axiosInstance.get("/profile/dashboard/stats");
   return response.data;
 };
+
+export const deleteProfile = async (id) => {
+  try {
+    const response = await axiosInstance.delete(`/profile/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch profile:", error);
+    throw error; 
+  }
+};

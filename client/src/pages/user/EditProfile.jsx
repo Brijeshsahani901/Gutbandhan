@@ -731,7 +731,7 @@ const EditProfile = () => {
             : "Edit Profile"}
         </h1>
 
-        {(!formData?.created_by) && (
+        {(!formData?.dob) && (
           <div className="mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded">
             Please complete your profile to unlock all features.
           </div>

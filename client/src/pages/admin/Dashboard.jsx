@@ -39,7 +39,6 @@ const Dashboard = () => {
     );
   }
 
-  console.log(stats)
 
   const statsItems = [
     { label: "Total Users", value: stats?.totalUsers?.toLocaleString(), type: "neutral" },

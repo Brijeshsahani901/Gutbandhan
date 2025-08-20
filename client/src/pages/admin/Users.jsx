@@ -176,6 +176,7 @@
 
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { FiTrash } from "react-icons/fi";
 import {
   getAllProfile,
   searchProfiles,
@@ -188,11 +189,14 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-hot-toast";
 import { register } from "../../api/auth.api";
+import { deleteProfile } from "../../api/profile";
+
 
 const Users = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [formError, setFormError] = useState([]);
 
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -279,63 +283,95 @@ const Users = () => {
   //     },
   //   });
 
-const createMutation = useMutation({
-  mutationFn: async (formData) => {
-    // Step 1: Register user
-    const userPayload = {
-      email: formData.email,
-      password: formData.password,
-      profile_created: true,
-    };
+  const createMutation = useMutation({
+    mutationFn: async (formData) => {
+      // Step 1: Register user
+      const userPayload = {
+        email: formData.email,
+        password: formData.password,
+        profile_created: true,
+      };
 
-    const userResponse = await register(userPayload);
-    const createdUserId = userResponse?.user?._id;
+      const userResponse = await register(userPayload);
+      const createdUserId = userResponse?.user?._id;
 
-    // Step 2: Register profile
-    const fd = new FormData();
-    for (const key in formData) {
-      if (["files", "password"].includes(key)) continue;
+      // Step 2: Register profile
+      const fd = new FormData();
+      for (const key in formData) {
+        if (["files", "password"].includes(key)) continue;
 
-      if (key === "hobby") {
-        fd.append("hobby", formData.hobby.join(","));
-      } else {
-        fd.append(key, formData[key]);
+        if (key === "hobby") {
+          fd.append("hobby", formData.hobby.join(","));
+        } else {
+          fd.append(key, formData[key]);
+        }
       }
-    }
 
-    // Use created user's ID for created_by
-    fd.append("created_by", createdUserId || "default_user_id");
+      // Use created user's ID for created_by
+      fd.append("created_by", createdUserId || "default_user_id");
 
-    if (Array.isArray(formData.files)) {
-      formData.files.forEach((file) => {
-        fd.append("photos", file);
+      if (Array.isArray(formData.files)) {
+        formData.files.forEach((file) => {
+          fd.append("photos", file);
+        });
+      }
+
+      return profileRegister(fd);
+    },
+
+    onSuccess: async () => {
+      toast.success("User and profile created successfully!");
+      setIsModalOpen(false);
+      setFormError([]);
+      setFormData({
+        first_name: "",
+        last_name: "",
+        email: "",
+        password: "",
+        residing_country: "",
+        marital_status: "",
+        hobby: [],
+        about: "",
+        created_for: "Myself",
       });
-    }
+      await queryClient.invalidateQueries(["profiles"]);
+    },
 
-    return profileRegister(fd);
+onError: (error) => {
+  if (
+    error !== null &&
+    typeof error === "object" &&
+    !Array.isArray(error) &&
+    Array.isArray(error.errors)
+  ) {
+    // Agar error.errors ek array hai to usko map karo
+    const messages = error.errors.map((err) => `${err.path}: ${err.msg}`);
+    setFormError(messages);
+  } else {
+    // Agar error.errors nahi mila to generic message dikhado
+    setFormError([error?.message || "Failed to create user/profile"]);
+  }
+
+  console.error("API Error:", error);
+},
+
+
+  });
+
+  const deleteMutation = useMutation({
+  mutationFn: async (profileId) => {
+    return await deleteProfile(profileId);
   },
-
   onSuccess: async () => {
-    toast.success("User and profile created successfully!");
-    setIsModalOpen(false);
-    setFormData({
-      first_name: "",
-      last_name: "",
-      email: "",
-      password: "",
-      residing_country: "",
-      marital_status: "",
-      hobby: [],
-      about: "",
-      created_for: "Myself",
-    });
+    toast.success("User profile deleted successfully!");
     await queryClient.invalidateQueries(["profiles"]);
   },
-
   onError: (error) => {
-    toast.error(error?.message || "Failed to create user/profile");
+    toast.error(error?.response?.data?.message || "Failed to delete profile");
+    console.error("Delete error:", error);
   },
 });
+
 
 
   const handleFilterChange = (e) => {
@@ -343,6 +379,8 @@ const createMutation = useMutation({
     setFilters((prev) => ({ ...prev, [name]: value }));
     setPage(1);
   };
+
+  console.log()
 
   const allHobbies = [
     "Travel",
@@ -368,7 +406,10 @@ const createMutation = useMutation({
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-primary-700">User Management</h1>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setFormError([]); // ✅ Clear previous errors when opening
+            setIsModalOpen(true);
+          }}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
         >
           <FaPlusCircle />
@@ -453,19 +494,32 @@ const createMutation = useMutation({
                       <td className="px-6 py-4">{p.residing_country || "-"}</td>
                       <td className="px-6 py-4">{p.marital_status || "-"}</td>
                       <td className="px-6 py-4">{formatDate(p.createdAt)}</td>
-                      <td className="px-6 py-4 text-center">
-                        <button
-                          onClick={() =>
-                            navigate(
-                              `/user/edit-profile?profile_id=${p.profile_id}`
-                            )
-                          }
-                          className="text-blue-600 hover:text-blue-800 transition"
-                          title="Edit Profile"
-                        >
-                          <FaEdit />
-                        </button>
-                      </td>
+                     <td className="px-6 py-4 flex justify-center gap-4">
+  {/* Edit Button */}
+  <button
+    onClick={() =>
+      navigate(`/user/edit-profile?profile_id=${p.profile_id}`)
+    }
+    className="text-blue-600 hover:text-blue-800 transition"
+    title="Edit Profile"
+  >
+    <FaEdit />
+  </button>
+
+  {/* Delete Button */}
+  <button
+    onClick={() => {
+      if (window.confirm("Are you sure you want to delete this user?")) {
+        deleteMutation.mutate(p.profile_id); // or p._id depending on your API
+      }
+    }}
+    className="text-red-600 hover:text-red-800 transition"
+    title="Delete Profile"
+  >
+    🗑️
+  </button>
+</td>
+
                     </motion.tr>
                   ))}
                 </AnimatePresence>
@@ -665,6 +719,16 @@ const createMutation = useMutation({
                   rows="4"
                 />
               </div>
+
+              {/* Error Messages (if any) */}
+           {formError.length > 0 && (
+  <div className="text-red-600 text-sm font-medium space-y-1 mb-2 text-left">
+    {formError.map((err, idx) => (
+      <div key={idx}>❌ {err}</div>
+    ))}
+  </div>
+)}
+
 
               {/* Buttons */}
               <div className="flex justify-end gap-4 pt-4">

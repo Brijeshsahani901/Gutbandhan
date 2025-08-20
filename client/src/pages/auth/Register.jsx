@@ -92,8 +92,9 @@ const Register = () => {
       navigate("/auth/login");
     },
     onError: (error) => {
+      console.error(error)
       toast.error(
-        error?.response?.data || "Registration failed. Please try again."
+        error?.message || "Registration failed. Please try again."
       );
     },
   });

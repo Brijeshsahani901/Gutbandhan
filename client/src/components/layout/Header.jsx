@@ -33,14 +33,16 @@ const Header = ({ isScrolled }) => {
     }`}>
       <div className="container-custom flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
+        {/* <Link to="/" className="flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E11D48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
           <span className={`text-xl font-serif font-bold ${isScrolled ? 'text-primary-600' : 'text-primary-600'}`}>
             Eternal Bonds
           </span>
-        </Link>
+        </Link> */}
+
+        <img width={200} height={100} src='/gutbandhan.png'/>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-1">
@@ -76,15 +78,16 @@ const Header = ({ isScrolled }) => {
                     transition={{ duration: 0.2 }}
                     className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10 border border-neutral-200"
                   >
+                     {user?.role === 'A' && (
+                      <Link to="/admin/dashboard" className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Admin Panel</Link>
+                    )}
                     <Link to="/user/dashboard" className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Dashboard</Link>
                     <Link to="/user/edit-profile" className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Edit Profile</Link>
                     <Link to="/user/saved" className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Shortlisted Profiles</Link>
                     <Link to="/user/interests" className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Interests</Link>
                     <Link to="/user/messages" className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Messages</Link>
                     <Link to="/user/upgrade" className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Upgrade Plan</Link>
-                    {user?.role === 'admin' && (
-                      <Link to="/admin/dashboard" className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Admin Panel</Link>
-                    )}
+                   
                     <hr className="my-1" />
                     <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-neutral-50">
                       Sign Out
