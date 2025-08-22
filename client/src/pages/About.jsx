@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const About = () => {
   useEffect(() => {
-    document.title = 'About Us | Eternal Bonds'
+    document.title = 'About Us | Guthbandhan'
   }, [])
 
   return (
@@ -27,7 +27,7 @@ const About = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-lg md:text-xl text-neutral-700 mb-8"
             >
-              Eternal Bonds was founded with a simple mission: to help people find meaningful, lasting relationships based on genuine compatibility.
+              Guthbandhan was founded with a simple mission: to help people find meaningful, lasting relationships based on genuine compatibility.
             </motion.p>
           </div>
         </div>
@@ -60,7 +60,7 @@ const About = () => {
                 In a world of superficial swipes and casual encounters, we believe in creating a platform that values depth, authenticity, and meaningful connection.
               </p>
               <p className="text-neutral-700 mb-6">
-                We understand that finding a life partner is one of the most important decisions you'll ever make. That's why we've built Eternal Bonds with a focus on compatibility, security, and respectful interactions.
+                We understand that finding a life partner is one of the most important decisions you'll ever make. That's why we've built Guthbandhan with a focus on compatibility, security, and respectful interactions.
               </p>
               <p className="text-neutral-700">
                 Our sophisticated matching algorithm goes beyond surface-level attributes to connect people based on shared values, life goals, and compatibility factors that truly matter for long-term relationship success.
@@ -76,7 +76,7 @@ const About = () => {
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl font-bold mb-6">Our Values</h2>
             <p className="text-neutral-700">
-              These core principles guide everything we do at Eternal Bonds.
+              These core principles guide everything we do at Guthbandhan.
             </p>
           </div>
           
@@ -138,7 +138,7 @@ const About = () => {
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl font-bold mb-6">Meet Our Team</h2>
             <p className="text-neutral-700">
-              The passionate individuals behind Eternal Bonds are dedicated to helping you find your perfect match.
+              The passionate individuals behind Guthbandhan are dedicated to helping you find your perfect match.
             </p>
           </div>
           
@@ -148,7 +148,7 @@ const About = () => {
                 name: "Sarah Johnson",
                 role: "Founder & CEO",
                 image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300",
-                bio: "With a background in psychology and relationship counseling, Sarah founded Eternal Bonds to help people find meaningful connections."
+                bio: "With a background in psychology and relationship counseling, Sarah founded Guthbandhan to help people find meaningful connections."
               },
               {
                 name: "Michael Chen",
@@ -160,7 +160,7 @@ const About = () => {
                 name: "Jessica Williams",
                 role: "Head of Customer Success",
                 image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=300",
-                bio: "Jessica ensures that every member of Eternal Bonds receives personalized support throughout their journey."
+                bio: "Jessica ensures that every member of Guthbandhan receives personalized support throughout their journey."
               },
             ].map((member, index) => (
               <motion.div

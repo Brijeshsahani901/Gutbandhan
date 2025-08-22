@@ -8,10 +8,11 @@ const Footer = () => {
           {/* Company Info */}
           <div>
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
-              <span className="text-xl font-serif font-bold">Eternal Bonds</span>
+              </svg> */}
+              <img src="/gutbandhan.png" width={150} height={150} alt="" />
+              {/* <span className="text-xl font-serif font-bold">Guthbandhan</span> */}
             </Link>
             <p className="text-neutral-400 mb-4">
               Connecting hearts and creating lasting relationships since 2025.
@@ -76,7 +77,7 @@ const Footer = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span className="text-neutral-400">support@eternalbonds.com</span>
+                <span className="text-neutral-400">support@guthbandhan.com</span>
               </p>
               <p className="flex items-start">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,15 +99,15 @@ const Footer = () => {
         {/* Bottom */}
         <div className="pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center">
           <p className="text-neutral-500 text-sm mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} Eternal Bonds. All rights reserved.
+            &copy; {new Date().getFullYear()}  Guthbandhan. All rights reserved.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          {/* <div className="flex flex-wrap justify-center gap-4">
             <img src="https://via.placeholder.com/40x25" alt="Visa" className="h-6" />
             <img src="https://via.placeholder.com/40x25" alt="Mastercard" className="h-6" />
             <img src="https://via.placeholder.com/40x25" alt="Amex" className="h-6" />
             <img src="https://via.placeholder.com/40x25" alt="PayPal" className="h-6" />
             <img src="https://via.placeholder.com/40x25" alt="Apple Pay" className="h-6" />
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

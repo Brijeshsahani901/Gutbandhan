@@ -441,7 +441,12 @@ const ProfileDetail = () => {
                 </>
               ) : (
                 <div className="aspect-square rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-400">
-                  No Photos Available
+                  {/* No Photos Available */}
+                   <img
+                          src="/gutbandhan.png"
+                          alt="mage"
+                          className="w-full h-full object-contain"
+                        />
                 </div>
               )}
             </div>

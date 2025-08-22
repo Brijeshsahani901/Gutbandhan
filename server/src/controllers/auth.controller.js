@@ -1,6 +1,13 @@
-import { validationResult } from "express-validator";
 import User from "../models/user.model.js";
 import { generateToken } from "../utils/generateToken.js";
+import sendEmail from "../utils/sendEmail.js";
+import { setOTP, getOTP, deleteOTP } from "../utils/otpStore.js";
+import bcrypt from "bcrypt";
+import { validationResult } from "express-validator";
+
+
+// Generate 6-digit OTP
+const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 export const register = async (req, res) => {
   const errors = validationResult(req);
@@ -11,9 +18,6 @@ export const register = async (req, res) => {
   try {
     const { username, password, name, email, phone, role, status} = req.body;
 
-    console.log(email)
-
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -114,46 +118,51 @@ export const login = async (req, res) => {
   }
 };
 
-export const changePassword = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+
+
+// 1. Send OTP to email
+export const requestOTP = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) return res.status(404).json({ message: "User not found." });
+
+  const otp = generateOTP();
+  setOTP(email, otp);
+
+  await sendEmail(email, "Your OTP Code", `Your OTP is: ${otp}`);
+
+  res.json({ message: "OTP sent to email." });
+};
+
+// 2. Verify OTP
+export const verifyOTP = async (req, res) => {
+  const { email, otp } = req.body;
+
+  const storedOtp = getOTP(email);
+  if (!storedOtp || storedOtp !== otp) {
+    return res.status(400).json({ message: "Invalid or expired OTP." });
   }
 
-  try {
-    const { currentPassword, newPassword } = req.body;
-    const userId = req.user.userId;
+  res.json({ message: "OTP verified successfully." });
+};
 
-    const user = await User.findById(userId);
+// 3. Reset Password
+export const resetPassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
 
-    if (!user) {
-      return res.status(404).json({
-        status: false,
-        message: "User not found",
-      });
-    }
-
-    // Verify current password
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) {
-      return res.status(401).json({
-        status: false,
-        message: "Current password is incorrect",
-      });
-    }
-
-    // Update password (will be hashed by pre-save hook)
-    user.password = newPassword;
-    await user.save();
-
-    res.status(200).json({
-      status: true,
-      message: "Password changed successfully",
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "Error occurred while changing password",
-    });
+  const storedOtp = getOTP(email);
+  if (!storedOtp || storedOtp !== otp) {
+    return res.status(400).json({ message: "Invalid or expired OTP." });
   }
+
+  const user = await User.findOne({ email });
+  if (!user) return res.status(404).json({ message: "User not found." });
+
+  user.password = newPassword;
+  await user.save();
+
+  deleteOTP(email);
+
+  res.json({ message: "Password updated successfully." });
 };

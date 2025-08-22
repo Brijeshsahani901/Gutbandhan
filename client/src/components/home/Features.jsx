@@ -69,7 +69,7 @@ const Features = () => {
     <section className="py-16 md:py-24 bg-white">
       <div className="container-custom">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose Eternal Bonds</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose Guthandhan</h2>
           <p className="text-lg text-neutral-600">
             Our platform offers unique features designed to help you find meaningful connections based on compatibility and shared values.
           </p>

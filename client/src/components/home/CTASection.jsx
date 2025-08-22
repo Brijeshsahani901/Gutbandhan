@@ -33,7 +33,7 @@ const CTASection = () => {
                 Ready to Find Your Perfect Match?
               </h2>
               <p className="text-lg text-neutral-600 mb-8">
-                Join thousands of singles who have found meaningful relationships through Eternal Bonds. Your journey to lasting love starts with a simple step.
+                Join thousands of singles who have found meaningful relationships through Guthandhan. Your journey to lasting love starts with a simple step.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">

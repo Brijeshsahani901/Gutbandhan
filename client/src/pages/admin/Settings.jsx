@@ -4,9 +4,9 @@ import { toast } from "react-toastify";
 
 const Settings = () => {
   const [generalSettings, setGeneralSettings] = useState({
-    siteName: "Eternal Bonds",
+    siteName: "Guthbandhan",
     siteDescription: "Find your perfect match",
-    supportEmail: "support@eternalbonds.com",
+    supportEmail: "support@Guthbandhan.com",
     maxPhotosPerUser: 6,
     requireEmailVerification: true,
     enableProfileVerification: true,

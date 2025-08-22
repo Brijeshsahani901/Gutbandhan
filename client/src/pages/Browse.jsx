@@ -9,11 +9,13 @@ import { useQuery,useMutation } from "@tanstack/react-query";
 import { getAllProfile,searchProfiles } from "../api/profile";
 import React from "react";
 
+import { motion } from "framer-motion";
+
 
 export default function Browse() {
   const [filters, setFilters] = useState({});
   const [debouncedFilters] = useDebounce(filters, 500);
-
+ const { user } = useAuth(); 
   const {
     data,
     isLoading,
@@ -30,8 +32,26 @@ export default function Browse() {
       const next = lastPage.page < lastPage.pages ? lastPage.page + 1 : undefined;
       return next;
     },
-    keepPreviousData: true,
+     keepPreviousData: true,
+    enabled: !!user 
   });
+
+  if (!user) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="pt-24 pb-16 container mx-auto px-4 text-center mt-20"
+    >
+      <h2
+        className="text-3xl font-semi-bold mb-4 bg-gradient-to-r from-red-600 via-pink-500 to-purple-600 bg-clip-text text-transparent"
+      >
+        You have to login first to browse profiles
+      </h2>
+    </motion.div>
+  );
+}
 
   const handleFilterChange = (newFilters) => {
     setFilters({ ...newFilters, page: 1 });
@@ -39,7 +59,7 @@ export default function Browse() {
   };
 
   return (
-    <div className="pt-24 pb-16 container mx-auto px-4">
+    <div className="pt-24 pb-16 container mx-auto px-16">
       <h1 className="text-center text-3xl font-bold mb-2">Browse Profiles</h1>
       <p className="text-center text-gray-600 mb-8">
         Discover compatible matches and start your journey.

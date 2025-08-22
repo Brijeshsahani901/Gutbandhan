@@ -4,19 +4,19 @@ import { motion } from 'framer-motion'
 
 const testimonials = [
   {
-    quote: "Eternal Bonds helped me find my soulmate when I least expected it. The matching algorithm is truly impressive - we have so much in common!",
+    quote: "Guthbandhan helped me find my soulmate when I least expected it. The matching algorithm is truly impressive - we have so much in common!",
     name: "Sarah Johnson",
     role: "Married to Michael, Met in 2024",
     avatar: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100"
   },
   {
-    quote: "After trying several dating apps with no luck, I found my perfect match on Eternal Bonds. The focus on compatibility made all the difference.",
+    quote: "After trying several dating apps with no luck, I found my perfect match on Guthbandhan. The focus on compatibility made all the difference.",
     name: "David Chen",
     role: "Engaged to Emma, Met in 2024",
     avatar: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=100"
   },
   {
-    quote: "What sets Eternal Bonds apart is the quality of matches. I connected with people who shared my values and life goals, which led to my current relationship.",
+    quote: "What sets Guthbandhan apart is the quality of matches. I connected with people who shared my values and life goals, which led to my current relationship.",
     name: "Jessica Miller",
     role: "Dating Thomas for 1 year",
     avatar: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&w=100"
@@ -49,7 +49,7 @@ const Testimonials = () => {
         <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Success Stories</h2>
           <p className="text-lg text-white/90">
-            Hear from couples who found love through Eternal Bonds.
+            Hear from couples who found love through Guthbandhan.
           </p>
         </div>
         

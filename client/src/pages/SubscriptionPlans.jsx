@@ -6,7 +6,7 @@ const SubscriptionPlans = () => {
   const [billingCycle, setBillingCycle] = useState('monthly')
   
   useEffect(() => {
-    document.title = 'Subscription Plans | Eternal Bonds'
+    document.title = 'Subscription Plans | Guthbandhan'
   }, [])
   
   const plans = [

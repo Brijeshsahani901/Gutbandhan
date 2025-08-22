@@ -8,12 +8,14 @@ const AuthLayout = () => {
       {/* Left side - Brand and Info */}
       <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-primary-600 to-secondary-700 text-white p-8 flex-col justify-between">
         <div>
-          <Link to="/" className="flex items-center gap-2 mb-16">
+          {/* <Link to="/" className="flex items-center gap-2 mb-16">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
             <span className="text-xl font-serif font-bold">Eternal Bonds</span>
-          </Link>
+          </Link> */}
+
+          <img src="/gutbandhan.png" width={250} height={150} alt="" className='mb-10'/>
           
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -60,7 +62,7 @@ const AuthLayout = () => {
         </div>
         
         <div className="text-sm opacity-80">
-          <p>&copy; 2025 Eternal Bonds. All rights reserved.</p>
+          <p>&copy; 2025 Guthbandhan. All rights reserved.</p>
         </div>
       </div>
       
@@ -71,7 +73,7 @@ const AuthLayout = () => {
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E11D48" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
-            <span className="text-xl font-serif font-bold text-primary-600">Eternal Bonds</span>
+            <span className="text-xl font-serif font-bold text-primary-600">Guthbandhan</span>
           </Link>
           
           <Outlet />

@@ -50,6 +50,7 @@ const Header = ({ isScrolled }) => {
           <NavLink to="/browse" className={navLinkClass}>Browse</NavLink>
           <NavLink to="/plans" className={navLinkClass}>Plans</NavLink>
           <NavLink to="/about" className={navLinkClass}>About</NavLink>
+          <NavLink to="/wedding-services" className={navLinkClass}>Wedding Services</NavLink>
         </nav>
 
         {/* Auth Buttons or Profile */}

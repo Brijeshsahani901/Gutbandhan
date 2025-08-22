@@ -18,8 +18,11 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 7000;
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
 
-const allowedOrigins = ['http://localhost:5173', 'http://31.97.231.211'];
+
+const allowedOrigins = ['http://localhost:5173', 'http://31.97.231.211', 'https://guthbandhan.com', 'https://www.guthbandhan.com'];
 
 // Apply CORS middleware BEFORE routes, with proper options
 app.use(cors({

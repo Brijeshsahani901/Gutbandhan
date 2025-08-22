@@ -156,8 +156,8 @@ const Register = () => {
       </h2>
       <p className="text-neutral-600 mb-8">
         {isAdmin
-          ? "Register as an admin to manage Eternal Bonds."
-          : "Complete your profile to find your perfect match on Eternal Bonds."}
+          ? "Register as an admin to manage Guthbandhan."
+          : "Complete your profile to find your perfect match on Guthbandhan."}
       </p>
 
       <motion.div

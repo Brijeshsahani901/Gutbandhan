@@ -11,10 +11,12 @@ import AuthLayout from "./layouts/AuthLayout";
 import Loader from "./components/common/Loader";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminRoute from "./components/auth/AdminRoute";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 // Lazy-loaded pages
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
+const WeddingServices = lazy(() => import("./pages/WeddingServices"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
 const SubscriptionPlans = lazy(() => import("./pages/SubscriptionPlans"));
@@ -49,10 +51,30 @@ function App() {
           <Route path="about" element={<About />} />
           <Route path="plans" element={<SubscriptionPlans />} />
           <Route path="browse" element={<Browse />} />
+          <Route path="wedding-services" element={<WeddingServices />} />
           <Route path="profile/:id" element={<ProfileDetail />} />
         </Route>
 
         {/* Auth Routes */}
+        {/* <Route path="/auth" element={<AuthLayout />}>
+          <Route
+            path="login"
+            element={
+              !isAuthenticated ? <Login /> : <Navigate to="/user/dashboard" />
+            }
+          />
+          <Route
+            path="register"
+            element={
+              !isAuthenticated ? (
+                <Register />
+              ) : (
+                <Navigate to="/user/dashboard" />
+              )
+            }
+          />
+        </Route> */}
+
         <Route path="/auth" element={<AuthLayout />}>
           <Route
             path="login"
@@ -65,6 +87,16 @@ function App() {
             element={
               !isAuthenticated ? (
                 <Register />
+              ) : (
+                <Navigate to="/user/dashboard" />
+              )
+            }
+          />
+          <Route
+            path="forgot-password"
+            element={
+              !isAuthenticated ? (
+                <ForgotPassword />
               ) : (
                 <Navigate to="/user/dashboard" />
               )

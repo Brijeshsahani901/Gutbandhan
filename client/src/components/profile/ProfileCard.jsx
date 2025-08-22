@@ -152,13 +152,20 @@ const ProfileCard = ({ profile, showActions = true }) => {
     >
       {/* Image */}
       <div className="relative h-80 overflow-hidden">
+         {Array.isArray(profile.photos) && profile.photos.length > 0 ? 
         <img
           src={`${baseurl}${profile.photos[0]?.replace(/\\/g, "/")}`}
           alt={profile.name}
           className={`w-full rounded-xl h-full object-cover transition-transform duration-500 ${
             isHovered ? "scale-105" : "scale-100"
           }`}
-        />
+        /> :  <img
+          src="/gutbandhan.png"
+          alt="image"
+          className={`w-full rounded-xl h-full object-contain transition-transform duration-500 ${
+            isHovered ? "scale-105" : "scale-100"
+          }`}
+        />  }
 
         {/* Badges */}
         <div className="absolute top-4 left-4 flex gap-2">

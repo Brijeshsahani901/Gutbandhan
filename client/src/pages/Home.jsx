@@ -8,7 +8,7 @@ import CTASection from '../components/home/CTASection'
 
 const Home = () => {
   useEffect(() => {
-    document.title = 'Eternal Bonds | Find Your Perfect Match'
+    document.title = 'Guthbandhan | Find Your Perfect Match'
   }, [])
 
   return (

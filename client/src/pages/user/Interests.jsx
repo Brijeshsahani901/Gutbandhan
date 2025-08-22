@@ -27,7 +27,7 @@ const Interests = () => {
   const [responseStatus, setResponseStatus] = useState(""); // "accepted" or "declined"
 
   useEffect(() => {
-    document.title = "Interests | Eternal Bonds";
+    document.title = "Interests | Guthandhan";
   }, []);
 
   const {
